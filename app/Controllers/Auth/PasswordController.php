@@ -22,10 +22,14 @@ class PasswordController extends Controller
 		]);
 		if ($validation->failed())
 		{
-			// $this->flash->addMessage('error', 'could not change your password with those details.' );
+			$this->flash->addMessage('error', 'could not change your password with those details.');
 			return $response->withRedirect($this->router->pathFor('auth.password.change'));
 		}
-		die('change password');
+		
+		$this->auth->user()->setPassword($request->getParam('password'));
+
+		$this->flash->addMessage('info', 'your password was changed.');
+		return $response->withRedirect($this->router->pathFor('home'));
 	}
 }
  
