@@ -13,6 +13,7 @@ class User extends Model {
 		'phone',
 		'role',
 		'password',
+		'added_by',
 	];
 
 	public function setPassword($password)

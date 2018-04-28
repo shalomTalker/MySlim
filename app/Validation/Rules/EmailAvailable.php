@@ -11,7 +11,7 @@ class EmailAvailable extends AbstractRule
 	public function validate($input)
 	{
 		
-	return user::where('email', $input)->count() === 0;
+	return User::where('email', $input)->count() === 0;
 	
 	}
 

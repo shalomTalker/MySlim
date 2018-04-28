@@ -1,6 +1,5 @@
 {% extends 'templates/app.twig'%}
-
-
+{% set page_title = 'Sign-up' %}
 {% block content %} 
 
 <div class="row">
@@ -10,27 +9,60 @@
 			<div class="panel-body">
 				<form action="{{path_for('auth.signup')}}" method="post" autocomplete="off">
 					<div class="form-group{{errors.email ? ' has-error' : '' }}">
-						<label for="email">E-mail</label>
-						<input type="text" name="email" id="email" placeholder="you@domain.com" class="form-control" value="{{ old.email }}">
+						<div class="input-group">
+							<span class="input-group-addon form-span">E-mail</span>
+							<input type="text" name="email" id="email" placeholder="you@domain.com" class="form-control" value="{{ old.email }}">
+						</div>
 						{% if errors.email %}
 						<span class="help-block">{{ errors.email | first }}</span>
 						{% endif %}
 					</div>
 					<div class="form-group{{errors.name ? ' has-error' : '' }}">
-						<label for="name">Name</label>
-						<input type="text" name="name" id="name" placeholder="Enter your name" class="form-control" value="{{ old.name }}">
+						<div class="input-group">
+							<span class="input-group-addon form-span">Name</span>
+							<input type="text" name="name" id="name" placeholder="Enter your name" class="form-control" value="{{ old.name }}">
+						</div>
 						{% if errors.name %}
 						<span class="help-block">{{ errors.name | first }}</span>
 						{% endif %}
 					</div>
+					<div class="form-group  {{ errors.phone ? ' has-error' : '' }}">
+                        <div class="input-group">
+                            <span class="input-group-addon form-span">phone</span>
+                            <input id="phone" name="phone" class="form-control" placeholder="enter your phone number" type="number" value="{{ old.phone }}">
+                        </div>
+                        {% if errors.phone %}
+						<span class="help-block">{{ errors.phone | first }}</span>
+						{% endif %}
+                    </div>
 					<div class="form-group{{errors.password ? ' has-error' : '' }}">
-						<label for="password">Password</label>
-						<input type="password" name="password" id="password" placeholder="Enter your password" class="form-control">
+						<div class="input-group">
+							<span class="input-group-addon form-span">Password</span>
+							<input type="password" name="password" id="password" placeholder="Enter your password" class="form-control">
+						</div>
 						{% if errors.password %}
 						<span class="help-block">{{ errors.password | first }}</span>
 						{% endif %}
 					</div>
+                    <div class="form-group  {{ errors.role ? ' has-error' : '' }}">
+                        <div class="input-group">
+                        	<span class="input-group">Choose the Role-user</label>
+                            <label class="radio-inline">
+                                <input type="radio" name="role" value="1">Sales
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="role" value="2">Administration
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="role" value="3">Owner
+                            </label>
+                        </div>
+                        {% if errors.role %}
+						<span class="help-block">{{ errors.role | first }}</span>
+						{% endif %}
+                    </div>
 					<button type="submit" class="btn btn-default">Sign up</button>
+					<a href="{{ path_for('auth.signin') }}" class="pull-right">Alreadt singed-up?! Sign-In</a>
 
 					{{ csrf.field | raw }}
 					

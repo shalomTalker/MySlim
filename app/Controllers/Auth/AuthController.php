@@ -62,7 +62,10 @@ class AuthController extends Controller
 		$validation = $this->validator->validate($request, [
 			'email' => v::noWhitespace()->notEmpty()->email()->EmailAvailable(),
 			'name' => v::notEmpty()->alpha(),
+			'phone' => v::notEmpty()->PhoneValid(),
 			'password' => v::noWhitespace()->notEmpty(),
+			'role' => v::notEmpty(),
+
 
 		]);
 
@@ -74,7 +77,9 @@ class AuthController extends Controller
 		$user = User::create([
 			'email' => $request->getParam('email'),
 			'name' => $request->getParam('name'),
+			'phone' => $request->getParam('phone'),
 			'password' => password_hash($request->getParam('password'), PASSWORD_DEFAULT),
+			'role' => $request->getParam('role'),
 		]);
 
 		$this->flash->addMessage('info', 'You have been sign up');

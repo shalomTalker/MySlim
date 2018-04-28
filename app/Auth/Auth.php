@@ -7,6 +7,7 @@ use App\Models\User;
 class Auth
 {
 
+// return session of user exist
 	public function user()
 	{
 		if (isset($_SESSION['user']))
@@ -15,11 +16,19 @@ class Auth
 		}
 	}
 
+// check if session of user exist
 	public function check()
 	{
 		return isset($_SESSION['user']);
 	}
-
+	
+	public function role()
+    {
+        if (isset($_SESSION['user'])) {
+            return User::find($_SESSION['user'])->role;
+        }
+    }
+// check for security if the password fetched to the email within DB eloquent return true/false and declare the id user in session
 	public function attempt($email, $password)
 	{
 		$user = User::where('email', $email)->first();
