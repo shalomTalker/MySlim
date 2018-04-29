@@ -9,7 +9,7 @@ class GuestMiddleware extends Middleware
 //check if there is session['user'] is connected
 		if ($this->container->auth->check()) 
 		{
-			$this->container->flash->addMessage('info', 'Welcome to CodeSchool please sign-In.');
+			$this->container->flash->addMessage('info', 'You are already signed-In.');
 			return $response->withRedirect($this->container->router->pathFor('home'));
 		}
 		

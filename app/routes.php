@@ -5,6 +5,11 @@ use App\Middleware\GuestMiddleware;
 
 $app->get('/', 'HomeController:index')->setName('home');
 
+$app->get('/manage/createstudent', 'ManageController:getCreateStudent')->setName('manage.createstudent');
+$app->post('/manage/createstudent', 'ManageController:postCreateStudent');
+
+$app->get('/manage/createcourse', 'ManageController:getCreateCourse')->setName('manage.createcourse');
+$app->post('/manage/createcourse', 'ManageController:postCreateCourse');
 // setting a group access for guest user 
 $app->group('', function()
 {   
@@ -28,5 +33,6 @@ $app->group('', function()
 
 	$this->get('/auth/password/change', 'PasswordController:getChangePassword')->setName('auth.password.change');
 	$this->post('/auth/password/change', 'PasswordController:postChangePassword');
+
 
 })->add(new AuthMiddleware($container));

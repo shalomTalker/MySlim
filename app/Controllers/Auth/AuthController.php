@@ -64,13 +64,20 @@ class AuthController extends Controller
 			'name' => v::notEmpty()->alpha(),
 			'phone' => v::notEmpty()->PhoneValid(),
 			'password' => v::noWhitespace()->notEmpty(),
+			'confirm_password' => v::noWhitespace()->notEmpty(),
 			'role' => v::notEmpty(),
-
-
 		]);
 
+		$password = $request->getParam('password'); 
+		$confirm_password = $request->getParam('confirm_password');
+
+		if ($password !== $confirm_password) {
+			$this->flash->addMessage('error', 'could not signup you with unmatch passwords.' );
+			return $response->withRedirect($this->router->pathFor('auth.signup'));
+		}
+		
 		if ($validation->failed()) {
-			$this->flash->addMessage('error', 'could not sign you up with those details.' );
+			$this->flash->addMessage('error', 'could not signup you with those details.' );
 			return $response->withRedirect($this->router->pathFor('auth.signup'));
 		}
 
@@ -81,10 +88,11 @@ class AuthController extends Controller
 			'password' => password_hash($request->getParam('password'), PASSWORD_DEFAULT),
 			'role' => $request->getParam('role'),
 		]);
+var_dump($validation);
 
 		$this->flash->addMessage('info', 'You have been sign up');
 
-
+//create session for new registered user so he may be redirected automatically to home.twig
 		$this->auth->attempt($user->email, $request->getParam('password'));
 
 		return $response->withRedirect($this->router->pathFor('home'));

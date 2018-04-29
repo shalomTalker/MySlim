@@ -44,6 +44,15 @@
 						<span class="help-block">{{ errors.password | first }}</span>
 						{% endif %}
 					</div>
+					<div class="form-group{{errors.confirm_password ? ' has-error' : '' }}">
+						<div class="input-group">
+							<span class="input-group-addon form-span">Confirm your password</span>
+							<input type="password" name="confirm_password" id="confirm_password" placeholder="Enter your password again for confirmation" class="form-control">
+						</div>
+						{% if errors.confirm_password %}
+						<span class="help-block">{{ errors.confirm_password | first }}</span>
+						{% endif %}
+					</div>
                     <div class="form-group  {{ errors.role ? ' has-error' : '' }}">
                         <div class="input-group">
                         	<span class="input-group">Choose the Role-user</label>
