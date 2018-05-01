@@ -6,18 +6,14 @@ class OldInputMiddleware extends Middleware
 {
 	public function __invoke($request, $response, $next)
 	{
-		if (!isset($_SESSION['old'])) 
-		{
-			return;
+		if (empty($_SESSION['old'])) {
+		    $_SESSION['old'] = true;
 		}
-			$this->container->view->getEnvironment()->addGlobal('old', $_SESSION['old']);
-			$_SESSION['old'] = $request->getParams();
+		
+		$this->container->view->getEnvironment()->addGlobal('old', $_SESSION['old']);
+		$_SESSION['old'] = $request->getParams();
 
 		$response = $next($request, $response);
 		return $response; 
-
 	}
 }
-		// 	$this->container->view->getEnvironment()->addGlobal('errors', $_SESSION['errors']);
-		// 	unset($_SESSION['errors']);
-		// }
