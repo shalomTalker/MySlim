@@ -8,6 +8,7 @@ class Auth
 {
 
 // return session of user exist
+
 	public function user()
 	{
 		if (isset($_SESSION['user']))
@@ -25,7 +26,7 @@ class Auth
 	public function role()
     {
         if (isset($_SESSION['user'])) {
-            return User::find($_SESSION['user'])->role;
+            return User::find($_SESSION['user'])->role_id;
         }
     }
 // check for security if the password fetched to the email within DB eloquent return true/false and declare the id user in session

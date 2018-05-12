@@ -2,6 +2,10 @@
 
 use Respect\Validation\Validator as v;
 
+use Illuminate\Database\Connectors\ConnectionFactory;
+use Illuminate\Database\Connection;
+use Psr\Container\ContainerInterface as Container;
+
 session_start();
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -24,8 +28,29 @@ $app = new \Slim\App([
 
 ]); 
 
-
 $container = $app->getContainer();
+
+$container['db2'] = function (Container $container) {
+    $settings = $container->get('settings');
+    $config = [
+        'driver' => 'mysql',
+        'host' => $settings['db']['host'],
+        'database' => $settings['db']['database'],
+        'username' => $settings['db']['username'],
+        'password' => $settings['db']['password'],
+        'charset' => $settings['db']['charset'],
+        'collation' => $settings['db']['collation'],
+        'prefix' => '',
+    ];
+    $factory = new ConnectionFactory(new \Illuminate\Container\Container());
+    return $factory->make($config);
+};
+
+$container['DBController'] = function ($container) {
+	return new App\Controllers\DBController($container);
+};
+
+
 
 $capsule = new \Illuminate\Database\Capsule\Manager;
 $capsule->addConnection($container['settings']['db']);
@@ -60,6 +85,9 @@ $container['view'] = function ($container) {
 		'check' => $container->auth->check(),
 		'user' => $container->auth->user(),
 		'role' => $container->auth->role(),
+		'userslist' => $container->DBController->getUsersList(),
+		'courseslist' => $container->DBController->getCoursesList(),
+		'studentslist' => $container->DBController->getStudentsList(),
 
 	]);
 	$view->getEnvironment()->addGlobal('flash', $container->flash);
@@ -81,6 +109,10 @@ $container['AuthController'] = function ($container) {
 	return new \App\Controllers\Auth\AuthController($container);
 };
 
+// $container['ImageValidator'] = function ($container) {
+//     return new App\Validation\ImageValidator($container);
+// };
+
 $container['PasswordController'] = function ($container) {
 
 	return new \App\Controllers\Auth\PasswordController($container);
@@ -95,6 +127,8 @@ $container['csrf'] = function ($container) {
 
 	return new \Slim\Csrf\Guard;
 };
+
+
 
 
 $app->add(new \App\Middleware\ValidationErrorsMiddleware($container));

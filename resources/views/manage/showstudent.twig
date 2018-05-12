@@ -1,0 +1,38 @@
+{% include 'home.twig'%}
+{% set page_title = 'Show student' %}
+{% block content %} 
+
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4>Details of {{ student.name }}</h4>
+					</div>
+					<div class="panel-body">
+							<div class="input-group">
+								<span class="input-group-addon form-span">Name</span>
+								<strong  id="student_name" class="form-control">{{ student.name }}</strong>
+							</div>
+							<div class="input-group">
+								<span class="input-group-addon form-span">Phone</span>
+								<strong  id="student_phone" class="form-control">{{ student.phone }}</strong>
+							</div>						
+							<div class="input-group">
+								<span class="input-group-addon form-span">E-mail</span>
+								<strong  id="student_email" class="form-control">{{ student.email }}</strong>
+							</div>
+							<div class="input-group">
+								<span class="input-group-addon form-span">Created at:</span>
+								<strong  id="student_created_at" class="form-control">{{ student.created_at }}</strong>
+							</div>
+							<div class="input-group">
+								<span class="input-group-addon form-span">Updated at:</span>
+								<strong  id="student_updated_at" class="form-control">{{ student.updated_at }}</strong>
+							</div>
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
+
+
+{% endblock %}
