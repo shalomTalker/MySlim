@@ -45,6 +45,46 @@ class ManageController extends Controller
 		return $response->withRedirect($this->router->pathFor('home'));
 	}
 
+	public function getEditStudent($request, $response, $args)
+	{
+		$student_id = $args['student_id'];
+        $student = $this->DBcontroller->getOneStudent($student_id);
+		return $this->view->render($response, '/manage/editstudent.twig', ['student' => $student]);
+	}
+
+	public function postEditStudent($request, $response, $args)
+	{
+        $id = $args['student_id'];
+		$validation = $this->validator->validate($request, [
+			'name' => v::notEmpty()->alpha(),
+			'phone' => v::notEmpty()->PhoneValid(),
+			'email' => v::noWhitespace()->notEmpty()->email()->EmailAvailable(),
+		]);
+		  /////////
+        // //get uploads
+        // $uploadedFiles = $request->getUploadedFiles();
+        // // get image from uploads
+        // $uploadedFile = $uploadedFiles['image'];
+        // //image validate chunk end
+        // $this->ImageValidator->failed($uploadedFile);
+
+		if ($validation->failed())/* || $this->ImageValidator->failed($uploadedFile))*/ {
+			$this->flash->addMessage('error', 'could not update this Student with those details.' );
+			return $response->withRedirect($this->router->pathFor('manage.editstudent',$args));
+		}
+
+		$student = Student::where('id', $id)->update([
+			'name' => $request->getParam('name'),
+			'phone' => $request->getParam('phone'),
+			'email' => $request->getParam('email'),
+			// 'image' => $request->getParam('image'),
+		]);
+
+		$this->flash->addMessage('info', 'You have successfully update Student.');
+
+		return $response->withRedirect($this->router->pathFor('manage.showstudent',$args));
+	}
+
 
     public function getStudent($request, $response, $args)
 	{
@@ -81,6 +121,43 @@ class ManageController extends Controller
 		return $response->withRedirect($this->router->pathFor('home'));
 	}
 
+	public function getEditCourse($request, $response, $args)
+	{
+		$course_id = $args['course_id'];
+        $course = $this->DBcontroller->getOneCourse($course_id);
+		return $this->view->render($response, '/manage/editcourse.twig', ['course' => $course]);
+	}
+
+	public function postEditCourse($request, $response, $args)
+	{
+        $id = $args['course_id'];
+		$validation = $this->validator->validate($request, [
+			'name' => v::notEmpty()->alpha(),
+			'description' => v::notEmpty(),
+		]);
+		  /////////
+        // //get uploads
+        // $uploadedFiles = $request->getUploadedFiles();
+        // // get image from uploads
+        // $uploadedFile = $uploadedFiles['image'];
+        // //image validate chunk end
+        // $this->ImageValidator->failed($uploadedFile);
+
+		if ($validation->failed())/* || $this->ImageValidator->failed($uploadedFile))*/ {
+			$this->flash->addMessage('error', 'could not update this Course with those details.' );
+			return $response->withRedirect($this->router->pathFor('manage.editcourse', $args));
+		}
+
+		$course = Course::where('id', $id)->update([
+			'name' => $request->getParam('name'),
+			'description' => $request->getParam('description'),
+			// 'image' => $request->getParam('image'),
+		]);
+
+		$this->flash->addMessage('info', 'You have successfully update Course.');
+
+		return $response->withRedirect($this->router->pathFor('manage.showcourse', $args));
+	}
 	public function getCourse($request, $response, $args)
 	{
 		$course_id = $args['course_id'];
@@ -150,7 +227,7 @@ class ManageController extends Controller
 	}
 
 
-public function getEditAdmin($request, $response, $args)
+	public function getEditAdmin($request, $response, $args)
 	{
 		$admin_id = $args['admin_id'];
         $admin = $this->DBcontroller->getOneAdmin($admin_id);
@@ -159,16 +236,7 @@ public function getEditAdmin($request, $response, $args)
 
 	public function postEditAdmin($request, $response, $args)
 	{
-		// var_dump($args['admin_id']);
-		// die();
-       $id = $args['admin_id'];
-
-	
-
-
-		// var_dump($admin);
-		
-
+        $id = $args['admin_id'];
 		$validation = $this->validator->validate($request, [
 			'email' => v::noWhitespace()->notEmpty()->email()->EmailAvailable(),
 			'name' => v::notEmpty()->alpha(),
@@ -185,7 +253,6 @@ public function getEditAdmin($request, $response, $args)
 
 		if ($validation->failed())/* || $this->ImageValidator->failed($uploadedFile))*/ {
 			$this->flash->addMessage('error', 'could not update this user with those details.' );
-			// return $this->view->render($response, '/manage/editadmin.twig', ['admin' => $admin]);
 			return $response->withRedirect($this->router->pathFor('manage.editadmin',$args));
 		}
 
@@ -197,16 +264,10 @@ public function getEditAdmin($request, $response, $args)
 			'role' => ($request->getParam('role') == '1') ? 'Sales' : 'Administrator',
 			// 'image' => $request->getParam('image'),
 		]);
-		var_dump($user);
-		// die();
 
+		$this->flash->addMessage('info', 'You have successfully update User.');
 
-		$this->flash->addMessage('info', 'You have successfully updated User.');
-
-//create session for new registered user so he may be redirected automatically to home.twig
-		// $this->auth->attempt($user->email, $request->getParam('password'));
-
-		return $response->withRedirect($this->router->pathFor('admin'));
+		return $response->withRedirect($this->router->pathFor('manage.showadmin',$args));
 	}
 
 

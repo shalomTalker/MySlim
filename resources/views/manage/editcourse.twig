@@ -1,0 +1,40 @@
+{% include 'home.twig'%}
+{% set page_title = 'Edit course' %}
+{% block content %} 
+
+
+		<div id="show" class="panel panel-default">
+			<div class="panel-heading">
+				<h4>Edit details of {{ course.name }}</h4>
+				<a href="" class="del btn btn-default">🗑</a>
+			</div>
+				<form class="panel-body" action="{{ base_url() }}/manage/editcourse/{{ course.id }}" method="post" autocomplete="off">
+					<div class="form-group{{errors.name ? ' has-error' : '' }}">
+						<div class="input-group">
+							<span class="input-group-addon form-span">Name</span>
+							<input type="text" name="name" id="name" class="form-control" placeholder="Enter the course name" value="{{ old.name ? old.name : course.name }}">
+						</div>
+						{% if errors.name %}
+						<span class="help-block">{{ errors.name | first }}</span>
+						{% endif %}
+					</div>
+					<div class="form-group{{errors.description ? ' has-error' : '' }}">
+						<div class="input-group">
+							<span class="input-group-addon form-span">Description</span>
+							<textarea name="description" id="description" placeholder="Type the course description" class="form-control">{{ old.description ? old.description : course.description }}</textarea>
+						</div>
+						{% if errors.description %}
+						<span class="help-block">{{ errors.description | first }}</span>
+						{% endif %}
+					</div>
+					<button type="submit" class="btn btn-default">Done</button>
+
+					{{ csrf.field | raw }}
+					
+				</form>
+		</div>
+	</div>
+   </main>
+ 
+ </div>
+{% endblock %}
