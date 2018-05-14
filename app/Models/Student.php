@@ -14,11 +14,11 @@ class Student extends Model {
 		'email',
 	];
 	
-	public function getOne($student_id)
-	{
-		$stmt = array('student'=>$this->db2->select('SELECT id, name, phone, email, image, updated_at, created_at FROM students WHERE id = $student_id;'));
-		return $stmt;
-	}
+	// public function getOne($student_id)
+	// {
+	// 	$stmt = array('student'=>$this->db2->select('SELECT id, name, phone, email, image, updated_at, created_at FROM students WHERE id = $student_id;'));
+	// 	return $stmt;
+	// }
 //function getCourse
 //function getAllCourses
 // function update

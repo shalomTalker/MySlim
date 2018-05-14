@@ -2,11 +2,11 @@
 namespace App\Controllers;
 
 use App\Controllers\Controller;
-use App\Models\Course;
-use App\Models\Student;
-use App\Models\User;
+// use App\Models\Course;
+// use App\Models\Student;
+// use App\Models\User;
 
-class DBController extends Controller
+class DBcontroller extends Controller
 {
     public function getUsersList()
     {
@@ -43,10 +43,23 @@ class DBController extends Controller
         }
         return $parsedStudents;
     }
+
     public function getOneStudent($student_id)
     {
-        $stmt = array('student'=>$this->db2->select('SELECT id, name, phone, email, image, updated_at, created_at FROM students WHERE id = $student_id;'));
-        return $stmt;
+        $stmt = $this->db2->select("SELECT id, name, phone, email, image, updated_at, created_at FROM students WHERE id = $student_id;");
+        return (array) $stmt[0];
+    }
+
+    public function getOneCourse($course_id)
+    {
+        $stmt = $this->db2->select("SELECT id, name, description, image, updated_at, created_at FROM courses WHERE id = $course_id;");
+        return (array) $stmt[0];
+    }
+
+    public function getOneAdmin($admin_id)
+    {
+        $stmt = $this->db2->select("SELECT id, name, email, phone, role_id, role, image, updated_at, created_at FROM users WHERE id = $admin_id;");
+        return (array) $stmt[0];
     }
 
     // public function getCoursesList()

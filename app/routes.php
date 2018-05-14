@@ -9,7 +9,6 @@ $app->group('', function () {
 
 //sign in
     $this->get('/auth/signin', 'AuthController:getSignIn')->setName('auth.signin');
-
     $this->post('/auth/signin', 'AuthController:postSignIn');
 
 })->add(new GuestMiddleware($container));
@@ -21,7 +20,6 @@ $app->group('', function () {
 
 //CreateStudent
     $this->get('/manage/createstudent', 'ManageController:getCreateStudent')->setName('manage.createstudent');
-
     $this->post('/manage/createstudent', 'ManageController:postCreateStudent');
 
 // getStudent
@@ -30,28 +28,34 @@ $app->group('', function () {
 
 //CreateCourse
     $this->get('/manage/createcourse', 'ManageController:getCreateCourse')->setName('manage.createcourse');
-
     $this->post('/manage/createcourse', 'ManageController:postCreateCourse');
+
+
+// getCourse
+    $this->get('/manage/showcourse/{course_id:\d+}', 'ManageController:getCourse')->setName('manage.showcourse');
 
 
 //ChangePassword
     $this->get('/auth/password/change', 'PasswordController:getChangePassword')->setName('auth.password.change');
-
     $this->post('/auth/password/change', 'PasswordController:postChangePassword');
 
 
 //indexAdmin
     $this->get('/admin', 'ManageController:indexAdmin')->setName('admin');
 
-    
 
-// sign-up//CreateAdmin
+//CreateAdmin
     $this->get('/manage/createadmin', 'ManageController:getCreateAdmin')->setName('manage.createadmin');
-    
     $this->post('/manage/createadmin', 'ManageController:postCreateAdmin');
 
 
+// getAdmin
+    $this->get('/admin/manage/showadmin/{admin_id:\d+}', 'ManageController:getAdmin')->setName('manage.showadmin');
 
+
+// getEditAdmin
+    $this->get('/admin/manage/editadmin/{admin_id:\d+}', 'ManageController:getEditAdmin')->setName('manage.editadmin');
+    $this->post('/admin/manage/editadmin/{admin_id:\d+}', 'ManageController:postEditAdmin');
 
 
 

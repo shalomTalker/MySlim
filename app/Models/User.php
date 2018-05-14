@@ -14,7 +14,7 @@ class User extends Model {
 		'role_id',
 		'role',
 		'password',
-		'image',
+		
 	];
 
 	public function setPassword($password)

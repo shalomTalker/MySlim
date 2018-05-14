@@ -46,8 +46,8 @@ $container['db2'] = function (Container $container) {
     return $factory->make($config);
 };
 
-$container['DBController'] = function ($container) {
-	return new App\Controllers\DBController($container);
+$container['DBcontroller'] = function ($container) {
+	return new App\Controllers\DBcontroller($container);
 };
 
 
@@ -85,9 +85,9 @@ $container['view'] = function ($container) {
 		'check' => $container->auth->check(),
 		'user' => $container->auth->user(),
 		'role' => $container->auth->role(),
-		'userslist' => $container->DBController->getUsersList(),
-		'courseslist' => $container->DBController->getCoursesList(),
-		'studentslist' => $container->DBController->getStudentsList(),
+		'userslist' => $container->DBcontroller->getUsersList(),
+		'courseslist' => $container->DBcontroller->getCoursesList(),
+		'studentslist' => $container->DBcontroller->getStudentsList(),
 
 	]);
 	$view->getEnvironment()->addGlobal('flash', $container->flash);

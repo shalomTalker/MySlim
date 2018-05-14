@@ -15,7 +15,7 @@
 						</a>
 						<nav class="list-group">
 							{% for course in auth.courseslist %}
-								<a href="" class="list-group-item list-group-item-action flex-column align-items-start">
+								<a href="{{ base_url() }}/manage/showcourse/{{ course.id }}" class="list-group-item list-group-item-action flex-column align-items-start">
 									<span>{{course.name}}</span>
 									<span>{{course.phone}}</span>
 								</a>

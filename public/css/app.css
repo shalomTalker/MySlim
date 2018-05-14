@@ -62,3 +62,30 @@ form .form-group textarea {
   max-height: 80px;
   max-width: 740px;
 }
+#show {
+  width: 100%;
+  padding: 20px;
+  border: 0;
+}
+#show > .panel-heading {
+  border: 1px solid #ddd ;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+#show > .panel-heading > a {
+  font-size: 17px;
+  color: black;
+
+}
+#show > .panel-heading > .del {
+  font-size: 22px;
+  color: black;
+
+}
+#show > .panel-body {
+  border: 1px solid #ddd ;
+}
+#show > .panel-body > .input-group {
+  margin-bottom: 1rem;
+}
