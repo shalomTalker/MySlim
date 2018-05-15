@@ -14,13 +14,23 @@
 							</svg>
 						</a>
 						<nav class="list-group">
-							{% for user in auth.userslist %}
-								<a href="{{ base_url() }}/admin/manage/showadmin/{{ user.id }}" class="list-group-item list-group-item-action flex-column align-items-start">
-									<span>{{user.name}}, {{ user.role }}</span>
-									<span>{{user.phone}}</span>
-									<span>{{user.email}}</span>
-								</a>
-							{% endfor %}
+							{% if auth.role < 3 %}
+								{% for user in auth.userslist[1:] %}
+									<a href="{{ base_url() }}/admin/manage/showadmin/{{ user.id }}" class="list-group-item list-group-item-action flex-column align-items-start">
+										<span>{{user.name}}, {{ user.role }}</span>
+										<span>{{user.phone}}</span>
+										<span>{{user.email}}</span>
+									</a>
+								{% endfor %}
+							{% else %}
+								{% for user in auth.userslist %}
+									<a href="{{ base_url() }}/admin/manage/showadmin/{{ user.id }}" class="list-group-item list-group-item-action flex-column align-items-start">
+										<span>{{user.name}}, {{ user.role }}</span>
+										<span>{{user.phone}}</span>
+										<span>{{user.email}}</span>
+									</a>
+								{% endfor %}
+							{% endif %}
 						</nav>
 					</div>
 				</div>

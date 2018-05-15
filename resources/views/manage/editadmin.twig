@@ -5,8 +5,16 @@
 
 		<div id="show" class="panel panel-default">
 			<div class="panel-heading">
+				{% set name = admin.name %}
+				
 				<h4>Edit details of {{ admin.name }}</h4>
+				{% for user in auth.userslist[1:] if auth.user.name == name %}
+				
+				<a href="" class="del btn btn-default" style="display: none;">🗑</a>
+				{% else %}
 				<a href="" class="del btn btn-default">🗑</a>
+				{% endfor %}
+
 			</div>
 				<form class="panel-body" action="{{ base_url() }}/admin/manage/editadmin/{{ admin.id }}" method="post" autocomplete="off">
 					<div class="form-group{{errors.email ? ' has-error' : '' }}">
@@ -40,8 +48,10 @@
                         <div class="input-group">
                         	<span class="input-group">Choose the Role-user</span>
                             <label class="radio-inline">
-                                <input type="radio" name="role" value="1" {{ admin.role_id == 1 ? 'checked="checked"' }}>Sales
+                            	
+                                <input type="radio" name="role" value="1" {{ admin.role_id == 1 ? 'checked="checked"' }} {{ auth.user.name == name and auth.role == 2 ? 'disabled="true"' }}>Sales
                             </label>
+
                             <label class="radio-inline">
                                 <input type="radio" name="role" value="2" {{ admin.role_id == 2 ? 'checked="checked"' }}>Administrator
                             </label>
