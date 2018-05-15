@@ -6,7 +6,7 @@
 		<div id="show" class="panel panel-default">
 			<div class="panel-heading">
 				<h4>Edit details of {{ student.name }}</h4>
-				<a href="" class="del btn btn-default">🗑</a>
+				<a href="{{ base_url() }}/manage/deletestudent/{{ student.id }}" class="del btn btn-default">🗑</a>
 			</div>
 				<form class="panel-body" action="{{ base_url() }}/manage/editstudent/{{ student.id }}" method="post" autocomplete="off">
 					<div class="form-group{{errors.email ? ' has-error' : '' }}">

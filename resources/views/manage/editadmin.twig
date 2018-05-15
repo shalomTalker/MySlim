@@ -9,10 +9,9 @@
 				
 				<h4>Edit details of {{ admin.name }}</h4>
 				{% for user in auth.userslist[1:] if auth.user.name == name %}
-				
-				<a href="" class="del btn btn-default" style="display: none;">🗑</a>
+					<a href="{{ base_url() }}/admin/manage/deleteadmin/{{ admin.id }}" class="del btn btn-default" style="display: none;">🗑</a>
 				{% else %}
-				<a href="" class="del btn btn-default">🗑</a>
+					<a href="{{ base_url() }}/admin/manage/deleteadmin/{{ admin.id }}" class="del btn btn-default">🗑</a>
 				{% endfor %}
 
 			</div>

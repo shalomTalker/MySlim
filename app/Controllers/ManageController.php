@@ -93,6 +93,27 @@ class ManageController extends Controller
 		return $this->view->render($response, '/manage/showstudent.twig', ['student' => $student]);
 	}
 
+	public function getDeleteStudent($request, $response, $args)
+	{
+		$student_id = $args['student_id'];
+        $student = $this->DBcontroller->getOneStudent($student_id);
+		return $this->view->render($response, '/manage/deletestudent.twig', ['student' => $student]);
+	}
+
+	public function postDeleteStudent($request, $response, $args)
+	{
+        $id = $args['student_id'];
+		$student = Student::where('id', $id)->delete([
+			'name' => $request->getParam('name'),
+			'phone' => $request->getParam('phone'),
+			'email' => $request->getParam('email'),
+			// 'image' => $request->getParam('image'),
+		]);
+		$this->flash->addMessage('info', 'You have successfully delete Student.');
+
+		return $response->withRedirect($this->router->pathFor('home'));
+	}
+
 	public function getCreateCourse($request, $response)
 	{
 		return $this->view->render($response, '/manage/createcourse.twig');
@@ -163,6 +184,26 @@ class ManageController extends Controller
 		$course_id = $args['course_id'];
         $course = $this->DBcontroller->getOneCourse($course_id);
 		return $this->view->render($response, '/manage/showcourse.twig', ['course' => $course]);
+	}
+
+	public function getDeleteCourse($request, $response, $args)
+	{
+		$course_id = $args['course_id'];
+        $course = $this->DBcontroller->getOneCourse($course_id);
+		return $this->view->render($response, '/manage/deletecourse.twig', ['course' => $course]);
+	}
+
+	public function postDeleteCourse($request, $response, $args)
+	{
+        $id = $args['course_id'];
+		$course = Course::where('id', $id)->delete([
+			'name' => $request->getParam('name'),
+			'description' => $request->getParam('description'),
+			// 'image' => $request->getParam('image'),
+		]);
+		$this->flash->addMessage('info', 'You have successfully delete Course.');
+
+		return $response->withRedirect($this->router->pathFor('home'));
 	}
 
 	public function indexAdmin ($request, $response) 
@@ -276,6 +317,29 @@ class ManageController extends Controller
 		$admin_id = $args['admin_id'];
         $admin = $this->DBcontroller->getOneAdmin($admin_id);
 		return $this->view->render($response, '/manage/showadmin.twig', ['admin' => $admin]);
+	}
+
+	public function getDeleteAdmin($request, $response, $args)
+	{
+		$admin_id = $args['admin_id'];
+        $admin = $this->DBcontroller->getOneAdmin($admin_id);
+		return $this->view->render($response, '/manage/deleteadmin.twig', ['admin' => $admin]);
+	}
+
+	public function postDeleteAdmin($request, $response, $args)
+	{
+        $id = $args['admin_id'];
+		$user = User::where('id', $id)->delete([
+			'email' => $request->getParam('email'),
+			'name' => $request->getParam('name'),
+			'phone' => $request->getParam('phone'),
+			'role_id' => $request->getParam('role'),
+			'role' => ($request->getParam('role') == '1') ? 'Sales' : 'Administrator',
+			// 'image' => $request->getParam('image'),
+		]);
+		$this->flash->addMessage('info', 'You have successfully delete User.');
+
+		return $response->withRedirect($this->router->pathFor('admin'));
 	}
 
 }
