@@ -6,6 +6,7 @@ namespace App\Controllers;
 use App\Models\Student;
 use App\Models\Course;
 use App\Models\User;
+use App\Models\Enrollment;
 use App\Controllers\Controller;
 use Respect\Validation\Validator as v;
 
@@ -26,6 +27,7 @@ class ManageController extends Controller
 			'name' => v::notEmpty()->alpha(),
 			'phone' => v::notEmpty()->PhoneValid(),
 			'email' => v::noWhitespace()->notEmpty()->email()->EmailAvailable(),
+
 		]);
 
 		if ($validation->failed()) {
@@ -40,7 +42,6 @@ class ManageController extends Controller
 		]);
 
 		$this->flash->addMessage('info', 'You have successfully added the Student to the school');
-
 
 		return $response->withRedirect($this->router->pathFor('home'));
 	}
@@ -59,6 +60,8 @@ class ManageController extends Controller
 			'name' => v::notEmpty()->alpha(),
 			'phone' => v::notEmpty()->PhoneValid(),
 			'email' => v::noWhitespace()->notEmpty()->email()->EmailAvailable(),
+			'course' => v::notEmpty(),
+
 		]);
 		  /////////
         // //get uploads
@@ -72,13 +75,25 @@ class ManageController extends Controller
 			$this->flash->addMessage('error', 'could not update this Student with those details.' );
 			return $response->withRedirect($this->router->pathFor('manage.editstudent',$args));
 		}
+$body = $request->getParsedBody();
 
 		$student = Student::where('id', $id)->update([
-			'name' => $request->getParam('name'),
-			'phone' => $request->getParam('phone'),
-			'email' => $request->getParam('email'),
-			// 'image' => $request->getParam('image'),
+			'name' => $body['name'],
+			'phone' => $body['phone'],
+			'email' => $body['email'],
+			// 'image' => $body['image'],
 		]);
+
+		$courses =  $body['course'];
+
+		foreach ($courses as $course) {
+			$Enrollment = Enrollment::create([
+
+				'student_id' => $body['student'],
+				'course_id' => $course,
+				'admin_id' => $body['admin'],
+			]);
+		}
 
 		$this->flash->addMessage('info', 'You have successfully update Student.');
 
@@ -90,7 +105,9 @@ class ManageController extends Controller
 	{
 		$student_id = $args['student_id'];
         $student = $this->DBcontroller->getOneStudent($student_id);
-		return $this->view->render($response, '/manage/showstudent.twig', ['student' => $student]);
+        $hisEnroll = $this->DBcontroller->getHisEnroll($student_id);
+
+		return $this->view->render($response, '/manage/showstudent.twig', ['student' => $student, 'hisEnroll' => $hisEnroll]);
 	}
 
 	public function getDeleteStudent($request, $response, $args)
@@ -208,7 +225,8 @@ class ManageController extends Controller
 
 	public function indexAdmin ($request, $response) 
 	{
-		return $this->view->render($response, '/admin.twig');
+		$adminPage = 'forTwigCheck';
+		return $this->view->render($response, '/admin.twig', ['adminPage' => $adminPage]);
 	}
 
 	public function getCreateAdmin($request, $response)

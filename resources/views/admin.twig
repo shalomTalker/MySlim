@@ -1,5 +1,5 @@
 {% include 'templates/app.twig'%}
-
+{% set page_title = 'admin' %}
 
 {% block content %} 
 			<div class="container-menu row">
@@ -35,12 +35,13 @@
 				</div>
 				<main>
 					<div class="main ">
-						{% if auth.role == 3 and not admin %}
+
+						{% if auth.role == 3 and not admin and adminPage %}
 						<ul>
 							<li>Number of users : {{ auth.userslist | length }}</li>
-							}
+							
 						</ul>
-						{% elseif auth.role < 3 and not admin %}
+						{% elseif auth.role < 3 and not admin and adminPage %}
 						<ul>
 							<li>Number of users : {{ auth.userslist | length  - 1 }}</li>
 						</ul>
@@ -48,6 +49,7 @@
 						{% if not admin and auth.userslist | length == 0 %}
 							<span>Your school is empty of managers try to recruit some....</span>
 						{% endif %}
+
 
 
 

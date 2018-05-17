@@ -88,6 +88,7 @@ $container['view'] = function ($container) {
 		'userslist' => $container->DBcontroller->getUsersList(),
 		'courseslist' => $container->DBcontroller->getCoursesList(),
 		'studentslist' => $container->DBcontroller->getStudentsList(),
+		'enrollmentslist' => $container->DBcontroller->getEnrollmentsList(),
 
 	]);
 	$view->getEnvironment()->addGlobal('flash', $container->flash);

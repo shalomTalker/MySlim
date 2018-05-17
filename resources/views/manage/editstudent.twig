@@ -45,7 +45,21 @@
 						<span class="help-block">{{ errors.image | first }}</span>
 						{% endif %}
 					</div> -->
-
+				    <div class="form-group  {{ errors.role ? ' has-error' : '' }}">
+                        <div class="input-group">
+                        	<span class="input-group">Select the courses to which the student is enrolled</span>
+							{% for course in auth.courseslist %}
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="course[]" value="{{ course.id }}">{{ course.name }}
+                            </label>
+                            {% endfor %}
+                        </div>
+                        {% if errors.role %}
+							<span class="help-block">{{ errors.role | first }}</span>
+						{% endif %}
+                    </div>
+					<input type="hidden" name="student" value="{{ student.id }}">
+					<input type="hidden" name="admin" value="{{ auth.user.id }}">
 					<button type="submit" class="btn btn-default">Done</button>
 
 					{{ csrf.field | raw }}

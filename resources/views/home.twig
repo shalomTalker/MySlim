@@ -41,12 +41,14 @@
 				</div>
 				<main>
 					<div class="main ">
-						{% if not student and not course %}
+						
+						{% if not student and not course and homePage %}
 						<ul>
-							<li>Number of students : {{ auth.courseslist | length }}</li>
-							<li>Number of courses : {{ auth.studentslist | length }}</li>
+							<li>Number of courses : {{ auth.courseslist | length }}</li>
+							<li>Number of students : {{ auth.studentslist | length }}</li>
 						</ul>
 						{% endif %}
+
 						{% if not student and not course and auth.courseslist | length == 0 %}
 						<span>Your school is empty of students and courses try to invest in marketing and content...</span>
 						{% endif %}

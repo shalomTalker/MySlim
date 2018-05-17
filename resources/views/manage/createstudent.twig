@@ -35,6 +35,8 @@
 								<span class="help-block">{{ errors.email | first }}</span>
 								{% endif %}
 							</div>
+		                   
+		                     <input type="text" name="admin_id_Hideinput" value="{{ auth.user.id }}" style="display: none;">
 							<button type="submit" class="btn btn-default">Add student</button>
 		
 							{{ csrf.field | raw }}

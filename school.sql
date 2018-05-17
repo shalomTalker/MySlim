@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 01, 2018 at 07:04 PM
+-- Generation Time: May 17, 2018 at 05:23 PM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.2.3
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `courses` (
-  `id` int(11) NOT NULL,
+  `id` int(5) NOT NULL,
   `name` varchar(50) NOT NULL,
   `description` text NOT NULL,
   `image` mediumblob NOT NULL,
@@ -42,7 +42,42 @@ CREATE TABLE `courses` (
 --
 
 INSERT INTO `courses` (`id`, `name`, `description`, `image`, `created_at`, `updated_at`) VALUES
-(1, 'javascript', 'frghdgd', '', '2018-04-29 15:54:40', '2018-04-29 15:54:40');
+(1, 'php-MYSQL', 'Have you ever wonder why their are so many PHP Mysql Courses but they offer very little practical skills. Even though if you search on Udemy the longest course will only offer 1 big projects. Sometimes its difficult for beginners to understand the long project right after learning basics due to lack of practice.', '', '2018-05-05 11:46:41', '2018-05-05 11:46:41'),
+(2, 'nodeJS', 'Have you tried to learn Node before? You start a new course, and the instructor has you installing a bunch of libraries before you even know what Node is or how it works. You eventually get stuck and reach out to the instructor, but you get no reply. You then close the course and never open it again.', '', '2018-05-07 17:35:01', '2018-05-07 17:35:01');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `enrollments`
+--
+
+CREATE TABLE `enrollments` (
+  `enrollment_id` int(11) UNSIGNED NOT NULL,
+  `student_id` int(11) DEFAULT NULL,
+  `course_id` int(11) DEFAULT NULL,
+  `admin_id` int(11) UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `enrollments`
+--
+
+INSERT INTO `enrollments` (`enrollment_id`, `student_id`, `course_id`, `admin_id`, `created_at`, `updated_at`) VALUES
+(5, 3, 1, 1, '2018-05-16 22:24:42', '2018-05-16 22:24:42'),
+(6, 3, 2, 1, '2018-05-16 22:24:43', '2018-05-16 22:24:43'),
+(7, 5, 1, 1, '2018-05-16 22:53:36', '2018-05-16 22:53:36'),
+(8, 5, 2, 1, '2018-05-16 22:53:36', '2018-05-16 22:53:36'),
+(9, 4, 1, 1, '2018-05-16 22:55:20', '2018-05-16 22:55:20'),
+(10, 4, 2, 1, '2018-05-16 22:55:20', '2018-05-16 22:55:20'),
+(11, 3, 1, 1, '2018-05-16 22:55:50', '2018-05-16 22:55:50'),
+(12, 3, 2, 1, '2018-05-16 22:55:50', '2018-05-16 22:55:50'),
+(13, 3, 1, 1, '2018-05-17 13:37:07', '2018-05-17 13:37:07'),
+(14, 3, 2, 1, '2018-05-17 13:37:07', '2018-05-17 13:37:07'),
+(15, 4, 1, 1, '2018-05-17 13:37:14', '2018-05-17 13:37:14'),
+(16, 5, 1, 1, '2018-05-17 13:37:22', '2018-05-17 13:37:22'),
+(17, 5, 2, 1, '2018-05-17 13:37:30', '2018-05-17 13:37:30');
 
 -- --------------------------------------------------------
 
@@ -65,9 +100,9 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`id`, `name`, `phone`, `email`, `image`, `created_at`, `updated_at`) VALUES
-(1, 'shalom', '0522210099', 'SHALOM604@GMAIL.COM', NULL, '2018-04-29 15:33:18', '2018-04-29 15:33:18'),
-(2, 'javascript', '', '', NULL, '2018-04-29 15:52:16', '2018-04-29 15:52:16'),
-(3, 'yehuda', '0522210098', 'shalom@gmail.com', NULL, '2018-04-29 17:19:17', '2018-04-29 17:19:17');
+(3, 'oz', '0544447788', 'oz604@gmail.com', NULL, '2018-05-17 00:35:46', '2018-05-17 16:37:07'),
+(4, 'ella', '0598874152', 'ella604@gmail.com', NULL, '2018-05-17 00:36:16', '2018-05-17 16:37:14'),
+(5, 'tal', '0541233352', 'tal604@gmail.com', NULL, '2018-05-17 00:36:44', '2018-05-17 16:37:30');
 
 -- --------------------------------------------------------
 
@@ -81,7 +116,9 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `phone` char(9) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
-  `role` char(1) NOT NULL,
+  `role_id` char(11) NOT NULL,
+  `role` char(20) NOT NULL,
+  `image` longblob NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -90,14 +127,8 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `phone`, `password`, `role`, `created_at`, `updated_at`) VALUES
-(34, 'shalom', 'shalom604@gmail.com', '052221009', '$2y$10$Ef0uhCx0XgOh5XQfY3Ume.Fpwq9vBVSNY4JHxBtjx.1YJNvMDzQRG', '1', '2018-04-28 17:33:46', '2018-04-29 10:19:19'),
-(35, 'shalom talker', 'shalom1604@gmail.com', '052221009', '$2y$10$a1vBY5y7cqoZ8NJJe/G7g.MgokiKz0Tz1rajpmvyjqk1xPkpwg93W', '1', '2018-04-28 17:38:19', '2018-04-28 17:38:19'),
-(36, 'shalomtalker', 'shalom60422@gmail.com', '052221009', '$2y$10$of.VqPQJGEHSDWkiuW5/0.xwVEh5zDMQkSvabtQWrZvdZ7.y.W2J.', '1', '2018-04-28 18:33:02', '2018-04-28 18:33:02'),
-(37, 'shalomtalker', 'shalom605@gmail.com', '052221009', '$2y$10$wa0SzgcY2F5fePqYMrjGkOZxPqQSOfPdacxTeoQGF5M/TJx2azRQ.', '1', '2018-04-28 18:34:01', '2018-04-28 18:34:01'),
-(38, 'shalom', 'shalom@gmail.com', '052221009', '$2y$10$glorjhmDcwqEfDKfhYVz5ec/s0qDvMXR8i8.8s4vT1F/BkO9tGZci', '1', '2018-04-28 19:17:46', '2018-04-28 19:17:46'),
-(39, 'sha', 'shalom606@gmail.com', '052221009', '$2y$10$/6fu2h.pBycxZzN3sPXD1.iNPRBNynyagj9PEojY/lCpj.7tap8Su', '1', '2018-04-28 19:34:58', '2018-04-28 19:34:58'),
-(40, 'shalom', 'shalom607@gmail.com', '052221009', '$2y$10$QQSaKx.GzHf4.ZYVt7Mk8u4nki7apaJownF6RPI.cBVLQ1Ibsxz56', '1', '2018-04-28 19:36:01', '2018-04-28 19:36:01');
+INSERT INTO `users` (`id`, `name`, `email`, `phone`, `password`, `role_id`, `role`, `image`, `created_at`, `updated_at`) VALUES
+(1, 'shalom', 'shalom604@gmail.com', '052221009', '$2y$10$Ef0uhCx0XgOh5XQfY3Ume.Fpwq9vBVSNY4JHxBtjx.1YJNvMDzQRG', '3', 'Owner', '', '2018-04-28 14:33:46', '2018-04-29 07:19:19');
 
 --
 -- Indexes for dumped tables
@@ -108,6 +139,14 @@ INSERT INTO `users` (`id`, `name`, `email`, `phone`, `password`, `role`, `create
 --
 ALTER TABLE `courses`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `enrollments`
+--
+ALTER TABLE `enrollments`
+  ADD PRIMARY KEY (`enrollment_id`),
+  ADD KEY `student_id` (`student_id`),
+  ADD KEY `course_id` (`course_id`);
 
 --
 -- Indexes for table `students`
@@ -131,19 +170,36 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `courses`
 --
 ALTER TABLE `courses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `enrollments`
+--
+ALTER TABLE `enrollments`
+  MODIFY `enrollment_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `enrollments`
+--
+ALTER TABLE `enrollments`
+  ADD CONSTRAINT `enrollments_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `enrollments_ibfk_2` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
