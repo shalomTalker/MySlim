@@ -29,7 +29,18 @@
 								<h5><strong>Updated at:</strong></h5>
 								<span id="student_updated_at">{{ student.updated_at }}</span>
 							</div>
-							{{ hisEnroll.course_name }}
+							<div id="enrollmentDiv">
+								<h5><strong>Enroll to:</strong></h5>
+								<ul>
+								{% for rollment in hisEnroll %}
+									<li>
+										{{rollment.course_name}} course,<br>
+										<strong>by:</strong> {{rollment.user_name}},<br> 
+										<strong>at:</strong> {{rollment.created_at}}
+									</li>
+								{% endfor %}
+								</ul>
+							</div>
 					</div>
 				</div>
 			</div>

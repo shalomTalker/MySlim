@@ -50,7 +50,12 @@
                         	<span class="input-group">Select the courses to which the student is enrolled</span>
 							{% for course in auth.courseslist %}
                             <label class="checkbox-inline">
-                                <input type="checkbox" name="course[]" value="{{ course.id }}">{{ course.name }}
+                                <input type="checkbox" name="course[]" value="{{ course.id }}" 
+                                {% for enrollCourse in hisEnroll %} 
+	                                {% if course.id == enrollCourse.course_id %} 
+		                                checked 
+	                                {% endif %}
+                                {% endfor %}>{{ course.name }}
                             </label>
                             {% endfor %}
                         </div>

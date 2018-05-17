@@ -50,6 +50,8 @@ class DBcontroller extends Controller
                 $parsedEnrollments[$subkey] = $subvalue;
             }
         }
+        // var_dump($parsedEnrollments);
+        // die();
         return $parsedEnrollments;
     }
 
@@ -84,17 +86,18 @@ class DBcontroller extends Controller
     }
     public function getHisEnroll($student_id)
     {
-         $enrollmentlist = array('enrollments'=>$this->db2->select('SELECT 
-            enrol.student_id, 
-            enrol.course_id, 
-            enrol.admin_id, 
-            stud.name as student_name, 
-            cour.name as course_name, 
-            user.name as user_name FROM enrollments enrol
-            INNER JOIN students stud on enrol.student_id = stud.id  
-            INNER JOIN courses cour on enrol.course_id = cour.id
-            INNER JOIN users user on enrol.admin_id = user.id
-            WHERE enrol.student_id = $student_id;'));
+         $enrollmentlist = array('enrollments'=>$this->db2->select("SELECT 
+                     enrol.student_id, 
+                     enrol.course_id, 
+                     enrol.admin_id, 
+                     enrol.created_at,
+                     stud.name as student_name, 
+                     cour.name as course_name, 
+                     user.name as user_name FROM enrollments enrol
+                     INNER JOIN students stud on enrol.student_id = stud.id  
+                     INNER JOIN courses cour on enrol.course_id = cour.id
+                     INNER JOIN users user on enrol.admin_id = user.id
+                     WHERE enrol.student_id = $student_id;"));
         $parsedEnrollments = array();
         foreach ($enrollmentlist as $key => $value) {
             foreach ($value as $subkey => $subvalue) {

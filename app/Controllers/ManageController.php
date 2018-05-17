@@ -50,7 +50,8 @@ class ManageController extends Controller
 	{
 		$student_id = $args['student_id'];
         $student = $this->DBcontroller->getOneStudent($student_id);
-		return $this->view->render($response, '/manage/editstudent.twig', ['student' => $student]);
+        $hisEnroll = $this->DBcontroller->getHisEnroll($student_id);
+		return $this->view->render($response, '/manage/editstudent.twig', ['student' => $student, 'hisEnroll' => $hisEnroll]);
 	}
 
 	public function postEditStudent($request, $response, $args)
@@ -84,12 +85,15 @@ $body = $request->getParsedBody();
 			// 'image' => $body['image'],
 		]);
 
+		$student_id	= $body['student'];
 		$courses =  $body['course'];
+
+		Enrollment::where('student_id', $student_id)->delete();
 
 		foreach ($courses as $course) {
 			$Enrollment = Enrollment::create([
 
-				'student_id' => $body['student'],
+				'student_id' => $student_id,
 				'course_id' => $course,
 				'admin_id' => $body['admin'],
 			]);

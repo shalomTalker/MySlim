@@ -1,6 +1,6 @@
 body {
-	padding-top: 80px;
-	padding-bottom: 50px;
+  padding-top: 80px;
+  padding-bottom: 50px;
   padding-left: 3rem;
   padding-right: 3rem;
 
@@ -13,16 +13,16 @@ body {
 
 }
 div .list {
-	display: flex;
-	flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 }
 div .list h4 {
   margin-bottom: 1rem;
   width: 100%;
 }
 .btnAdd {
-	line-height: 0.428571 !important;
-	margin-left: 1.5rem;
+  line-height: 0.428571 !important;
+  margin-left: 1.5rem;
   margin-bottom: 1rem;
   max-height: 38px;
 }
@@ -70,7 +70,7 @@ form .form-group textarea {
 #show > .panel-heading {
   border: 1px solid #ddd ;
   display: flex;
-  flex-wrap: nowrap;
+  /*flex-wrap: nowrap;*/
   justify-content: space-between;
 }
 #show > .panel-heading > a {
@@ -85,7 +85,16 @@ form .form-group textarea {
 }
 #show > .panel-body {
   border: 1px solid #ddd ;
+  position: relative;
 }
 #show > .panel-body > .input-group {
   margin-bottom: 1rem;
+}
+#enrollmentDiv {
+  position: absolute;
+  top: 15px;
+  right: 20%;
+}
+#enrollmentDiv ul {
+  display: block;
 }
