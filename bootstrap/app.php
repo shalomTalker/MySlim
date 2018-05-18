@@ -100,6 +100,10 @@ $container['validator'] = function ($container) {
 	return new App\Validation\Validator;
 };
 
+$container['ImageValidator'] = function ($container) {
+    return new App\Validation\ImageValidator($container);
+};
+
 $container['HomeController'] = function ($container) {
 
 	return new \App\Controllers\HomeController($container);
@@ -141,5 +145,8 @@ $app->add(new \App\Middleware\CsrfViewMiddleware($container));
 $app->add($container->csrf);
 
 v::with('App\\Validation\\Rules\\');
+
+$container['directory_IMG_students'] = __DIR__.'/../public/images/students';
+
 
 require __DIR__ . '/../app/routes.php';

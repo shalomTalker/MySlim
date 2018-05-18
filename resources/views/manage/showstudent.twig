@@ -30,8 +30,11 @@
 								<span id="student_updated_at">{{ student.updated_at }}</span>
 							</div>
 							<div id="enrollmentDiv">
-								<h5><strong>Enroll to:</strong></h5>
+								<h5><strong>Enroll to: {{hisEnroll | length }} courses</strong></h5>
 								<ul>
+									{% if not hisEnroll %}
+									<li><strong>This student did not enroll <br> for any course</strong></li>
+									{% endif %}
 								{% for rollment in hisEnroll %}
 									<li>
 										{{rollment.course_name}} course,<br>

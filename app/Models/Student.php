@@ -11,5 +11,6 @@ class Student extends Model {
 		'name',
 		'phone',
 		'email',
+		'image',
 	];
 }

@@ -8,14 +8,14 @@ class ImageValidator extends Controller
 {
     protected $errors = [];
     //image mimetype
-    protected $mimeType = "image/jpeg";
+    protected $mimeType = "image/jpeg/png";
     //image size allowed(1mb)
     protected $size = 1048576;
 
     protected function isEmpty($image)
     {
         if ($image->getSize() == 0) {
-            array_push($this->errors, 'Please add image');
+            array_push($this->errors, 'Please add any image');
             var_dump($image->getSize());
         }
     }
@@ -23,7 +23,7 @@ class ImageValidator extends Controller
     protected function validateSize($image)
     {
         if ($image->getSize() > $this->size) {
-            array_push($this->errors, '"' . $uploadedFile->getClientFilename() . '" is too large (' . $uploadedFile->getSize() . ' > 1mb)!');
+            array_push($this->errors, '"' . $uploadedFile->getClientFilename() . '" is too large (' . $uploadedFile->getSize() . ' > 5mb)!');
         }
     }
 

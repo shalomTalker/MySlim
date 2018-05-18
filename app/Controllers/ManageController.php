@@ -30,7 +30,19 @@ class ManageController extends Controller
 
 		]);
 
-		if ($validation->failed()) {
+			// var_dump($request->getParam('image'));
+        // die();
+			
+		
+
+        $file = $request->getUploadedFiles();
+        // var_dump($request->getUploadedFiles());
+        $profileImage = $file['image'];
+
+        $this->ImageValidator->failed($profileImage);
+
+
+		if ($validation->failed() || $this->ImageValidator->failed($profileImage)) {
 			$this->flash->addMessage('error', 'could not add this Student with those details.' );
 			return $response->withRedirect($this->router->pathFor('manage.createstudent'));
 		}
@@ -40,6 +52,8 @@ class ManageController extends Controller
 			'phone' => $request->getParam('phone'),
 			'email' => $request->getParam('email'),
 		]);
+
+		$this->ImageValidator->moveUploadedFile($this->container->directory_IMG_students, $profileImage, $id);
 
 		$this->flash->addMessage('info', 'You have successfully added the Student to the school');
 
@@ -61,8 +75,6 @@ class ManageController extends Controller
 			'name' => v::notEmpty()->alpha(),
 			'phone' => v::notEmpty()->PhoneValid(),
 			'email' => v::noWhitespace()->notEmpty()->email()->EmailAvailable(),
-			'course' => v::notEmpty(),
-
 		]);
 		  /////////
         // //get uploads
@@ -84,16 +96,30 @@ $body = $request->getParsedBody();
 			'email' => $body['email'],
 			// 'image' => $body['image'],
 		]);
+		// $hisEnroll = $this->DBcontroller->getHisEnroll($student_id);
+		// foreach ($hisEnroll as $roll) {
+		// 	foreach ($courses as $course) {
+		// 		if ($roll = $course) {
+		// 			var_dump($roll);
+		// 		}else{
+		// 			var_dump('expression');
+		// 		}
 
-		$student_id	= $body['student'];
+		// 	}
+		// }
+		
+		// die();
+// if (!isset(var)) {
+// 	# code...
+// }
 		$courses =  $body['course'];
 
-		Enrollment::where('student_id', $student_id)->delete();
+		Enrollment::where('student_id', $id)->delete();
 
 		foreach ($courses as $course) {
 			$Enrollment = Enrollment::create([
 
-				'student_id' => $student_id,
+				'student_id' => $id,
 				'course_id' => $course,
 				'admin_id' => $body['admin'],
 			]);
@@ -204,7 +230,8 @@ $body = $request->getParsedBody();
 	{
 		$course_id = $args['course_id'];
         $course = $this->DBcontroller->getOneCourse($course_id);
-		return $this->view->render($response, '/manage/showcourse.twig', ['course' => $course]);
+        $AllRegistered = $this->DBcontroller->getAllRegistered($course_id);
+		return $this->view->render($response, '/manage/showcourse.twig', ['course' => $course, 'allRegistered' => $AllRegistered]);
 	}
 
 	public function getDeleteCourse($request, $response, $args)

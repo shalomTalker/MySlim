@@ -109,6 +109,30 @@ class DBcontroller extends Controller
         return $parsedEnrollments;
     }
 
+    public function getAllRegistered($course_id)
+    {
+        $enrollmentlist = array('enrollments'=>$this->db2->select("SELECT 
+                     enrol.student_id, 
+                     enrol.course_id, 
+                     enrol.admin_id, 
+                     enrol.created_at,
+                     stud.name as student_name, 
+                     cour.name as course_name, 
+                     user.name as user_name FROM enrollments enrol
+                     INNER JOIN students stud on enrol.student_id = stud.id  
+                     INNER JOIN courses cour on enrol.course_id = cour.id
+                     INNER JOIN users user on enrol.admin_id = user.id
+                     WHERE enrol.course_id = $course_id;"));
+        $parsedEnrollments = array();
+        foreach ($enrollmentlist as $key => $value) {
+            foreach ($value as $subkey => $subvalue) {
+                $parsedEnrollments[$subkey] = $subvalue;
+            }
+        }
+        // var_dump($parsedEnrollments);
+        // die();
+        return $parsedEnrollments;
+    } 
     // public function getCoursesList()
     // {
     //     $courses = array('courses' => $this->db2->select('SELECT id,name,description,start_date,end_date FROM courses WHERE active="1"', [1]));
