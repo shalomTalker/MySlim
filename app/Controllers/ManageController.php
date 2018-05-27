@@ -30,16 +30,8 @@ class ManageController extends Controller
 
 		]);
 
-			// var_dump($request->getParam('image'));
-        // die();
-			
-		
-
         $file = $request->getUploadedFiles();
-        // var_dump($request->getUploadedFiles());
         $profileImage = $file['image'];
-
-        $this->ImageValidator->failed($profileImage);
 
 
 		if ($validation->failed() || $this->ImageValidator->failed($profileImage)) {
@@ -47,13 +39,15 @@ class ManageController extends Controller
 			return $response->withRedirect($this->router->pathFor('manage.createstudent'));
 		}
 
+		$image = $this->ImageValidator->moveUploadedFile($this->container->directory_IMG_students, $profileImage);
+		    
 		$student = Student::create([
 			'name' => $request->getParam('name'),
 			'phone' => $request->getParam('phone'),
 			'email' => $request->getParam('email'),
-		]);
+			'image' => $image,
 
-		$this->ImageValidator->moveUploadedFile($this->container->directory_IMG_students, $profileImage, $id);
+		]);
 
 		$this->flash->addMessage('info', 'You have successfully added the Student to the school');
 
@@ -74,44 +68,28 @@ class ManageController extends Controller
 		$validation = $this->validator->validate($request, [
 			'name' => v::notEmpty()->alpha(),
 			'phone' => v::notEmpty()->PhoneValid(),
-			'email' => v::noWhitespace()->notEmpty()->email()->EmailAvailable(),
+			'email' => v::noWhitespace()->notEmpty()->email(),
 		]);
-		  /////////
-        // //get uploads
-        // $uploadedFiles = $request->getUploadedFiles();
-        // // get image from uploads
-        // $uploadedFile = $uploadedFiles['image'];
-        // //image validate chunk end
-        // $this->ImageValidator->failed($uploadedFile);
 
-		if ($validation->failed())/* || $this->ImageValidator->failed($uploadedFile))*/ {
+		$file = $request->getUploadedFiles();
+        $profileImage = $file['image'];
+
+
+		if ($validation->failed() || $this->ImageValidator->failed($profileImage)) {
 			$this->flash->addMessage('error', 'could not update this Student with those details.' );
 			return $response->withRedirect($this->router->pathFor('manage.editstudent',$args));
 		}
-$body = $request->getParsedBody();
+
+		$body = $request->getParsedBody();
+		$image = $this->ImageValidator->moveUploadedFile($this->container->directory_IMG_students, $profileImage);
 
 		$student = Student::where('id', $id)->update([
 			'name' => $body['name'],
 			'phone' => $body['phone'],
 			'email' => $body['email'],
-			// 'image' => $body['image'],
+			'image' => $image,
 		]);
-		// $hisEnroll = $this->DBcontroller->getHisEnroll($student_id);
-		// foreach ($hisEnroll as $roll) {
-		// 	foreach ($courses as $course) {
-		// 		if ($roll = $course) {
-		// 			var_dump($roll);
-		// 		}else{
-		// 			var_dump('expression');
-		// 		}
-
-		// 	}
-		// }
-		
-		// die();
-// if (!isset(var)) {
-// 	# code...
-// }
+ 
 		$courses =  $body['course'];
 
 		Enrollment::where('student_id', $id)->delete();
@@ -173,14 +151,21 @@ $body = $request->getParsedBody();
 			'description' => v::notEmpty(),
 		]);
 
-		if ($validation->failed()) {
+		$file = $request->getUploadedFiles();
+        $profileImage = $file['image'];
+
+		if ($validation->failed() || $this->ImageValidator->failed($profileImage)) {
 			$this->flash->addMessage('error', 'could not add this Course with those details.' );
 			return $response->withRedirect($this->router->pathFor('manage.createcourse'));
 		}
 
+		$image = $this->ImageValidator->moveUploadedFile($this->container->directory_IMG_courses, $profileImage);
+
 		$course = Course::create([
 			'name' => $request->getParam('name'),
 			'description' => $request->getParam('description'),
+			'image' => $image,
+
 		]);
 
 		$this->flash->addMessage('info', 'You have successfully added the Course to the school');
@@ -203,23 +188,20 @@ $body = $request->getParsedBody();
 			'name' => v::notEmpty()->alpha(),
 			'description' => v::notEmpty(),
 		]);
-		  /////////
-        // //get uploads
-        // $uploadedFiles = $request->getUploadedFiles();
-        // // get image from uploads
-        // $uploadedFile = $uploadedFiles['image'];
-        // //image validate chunk end
-        // $this->ImageValidator->failed($uploadedFile);
 
-		if ($validation->failed())/* || $this->ImageValidator->failed($uploadedFile))*/ {
+		$file = $request->getUploadedFiles();
+        $profileImage = $file['image'];
+
+		if ($validation->failed() || $this->ImageValidator->failed($profileImage)) {
 			$this->flash->addMessage('error', 'could not update this Course with those details.' );
 			return $response->withRedirect($this->router->pathFor('manage.editcourse', $args));
 		}
+		$image = $this->ImageValidator->moveUploadedFile($this->container->directory_IMG_courses, $profileImage);
 
 		$course = Course::where('id', $id)->update([
 			'name' => $request->getParam('name'),
 			'description' => $request->getParam('description'),
-			// 'image' => $request->getParam('image'),
+			'image' => $image,
 		]);
 
 		$this->flash->addMessage('info', 'You have successfully update Course.');
@@ -277,13 +259,9 @@ $body = $request->getParsedBody();
 			'confirm_password' => v::noWhitespace()->notEmpty(),
 			'role' => v::notEmpty(),
 		]);
-		  /////////
-        // //get uploads
-        // $uploadedFiles = $request->getUploadedFiles();
-        // // get image from uploads
-        // $uploadedFile = $uploadedFiles['image'];
-        // //image validate chunk end
-        // $this->ImageValidator->failed($uploadedFile);
+
+		$file = $request->getUploadedFiles();
+        $profileImage = $file['image'];
 
 		$password = $request->getParam('password'); 
 		$confirm_password = $request->getParam('confirm_password');
@@ -293,10 +271,13 @@ $body = $request->getParsedBody();
 			return $response->withRedirect($this->router->pathFor('manage.createadmin'));
 		}
 		
-		if ($validation->failed())/* || $this->ImageValidator->failed($uploadedFile))*/ {
+		if ($validation->failed() || $this->ImageValidator->failed($profileImage)) {
 			$this->flash->addMessage('error', 'could not signup you with those details.' );
 			return $response->withRedirect($this->router->pathFor('manage.createadmin'));
 		}
+
+		$image = $this->ImageValidator->moveUploadedFile($this->container->directory_IMG_admins, $profileImage);
+
 		$user = User::create([
 			'email' => $request->getParam('email'),
 			'name' => $request->getParam('name'),
@@ -304,7 +285,7 @@ $body = $request->getParsedBody();
 			'password' => password_hash($request->getParam('password'), PASSWORD_DEFAULT),
 			'role_id' => $request->getParam('role'),
 			'role' => ($request->getParam('role') == '1') ? 'Sales' : 'Administrator',
-			// 'image' => $request->getParam('image'),
+			'image' => $image,
 		]);
 
 
@@ -328,22 +309,32 @@ $body = $request->getParsedBody();
 	{
         $id = $args['admin_id'];
 		$validation = $this->validator->validate($request, [
-			'email' => v::noWhitespace()->notEmpty()->email()->EmailAvailable(),
+			'email' => v::noWhitespace()->notEmpty()->email(),
 			'name' => v::notEmpty()->alpha(),
 			'phone' => v::notEmpty()->PhoneValid(),
 			'role' => v::notEmpty(),
 		]);
-		  /////////
-        // //get uploads
-        // $uploadedFiles = $request->getUploadedFiles();
-        // // get image from uploads
-        // $uploadedFile = $uploadedFiles['image'];
-        // //image validate chunk end
-        // $this->ImageValidator->failed($uploadedFile);
 
-		if ($validation->failed())/* || $this->ImageValidator->failed($uploadedFile))*/ {
+		$file = $request->getUploadedFiles();
+        $profileImage = $file['image'];
+
+		if ($validation->failed() || $this->ImageValidator->failed($profileImage)) {
 			$this->flash->addMessage('error', 'could not update this user with those details.' );
 			return $response->withRedirect($this->router->pathFor('manage.editadmin',$args));
+		}
+
+		$image = $this->ImageValidator->moveUploadedFile($this->container->directory_IMG_admins, $profileImage);
+
+		switch ($request->getParam('role')) {
+			case '1':
+				$role_name = 'sales';
+				break;
+			case '2':
+				$role_name = 'Administrator';
+				break;
+			case '3':
+				$role_name = 'owner';
+				break;
 		}
 
 		$user = User::where('id', $id)->update([
@@ -351,8 +342,8 @@ $body = $request->getParsedBody();
 			'name' => $request->getParam('name'),
 			'phone' => $request->getParam('phone'),
 			'role_id' => $request->getParam('role'),
-			'role' => ($request->getParam('role') == '1') ? 'Sales' : 'Administrator',
-			// 'image' => $request->getParam('image'),
+			'role' => $role_name,
+			'image' => $image,
 		]);
 
 		$this->flash->addMessage('info', 'You have successfully update User.');

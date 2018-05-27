@@ -3,11 +3,11 @@
 {% block content %} 
 
 
-		<div class="panel panel-default">
+		<div id="createA" class="panel panel-default">
 			<div class="panel-heading">
 				<h4>Create a new Manager / Sales</h4>
 			</div>
-				<form class="panel-body" action="{{path_for('manage.createadmin')}}" method="post" autocomplete="off">
+				<form class="panel-body" action="{{path_for('manage.createadmin')}}" method="post" autocomplete="off" enctype="multipart/form-data">
 					<div class="form-group{{errors.email ? ' has-error' : '' }}">
 						<div class="input-group">
 							<span class="input-group-addon form-span">E-mail</span>
@@ -67,15 +67,16 @@
 						<span class="help-block">{{ errors.role | first }}</span>
 						{% endif %}
                     </div>
-                    <div class="form-group{{errors.image ? ' has-error' : '' }}">
+                   	<div class="form-group{{errors.image ? ' has-error' : '' }}">
 						<div class="input-group">
-							<span class="input-group-addon form-span">Upload image</span>
-							<input type="file" name="image" id="image" placeholder="upload user`s image" class="form-control">
+							<span class="input-group-addon form-span">Browse image</span>
+							<input type="file" name="image" id="image"  class="form-control" value="{{ old.image }}" >
 						</div>
 						{% if errors.image %}
 						<span class="help-block">{{ errors.image | first }}</span>
 						{% endif %}
 					</div>
+
 
 					<button type="submit" class="btn btn-default">Sign up</button>
 
@@ -84,7 +85,6 @@
 				</form>
 		</div>
 	</div>
-   </main>
  
  </div>
 {% endblock %}

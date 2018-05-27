@@ -7,7 +7,7 @@
 					<div class="panel-heading">
 						<h4>Create a new course</h4>
 					</div>
-						<form class="panel-body" action="{{path_for('manage.createcourse')}}" method="post" autocomplete="off">
+						<form class="panel-body" action="{{path_for('manage.createcourse')}}" method="post" autocomplete="off" enctype="multipart/form-data">
 							<div class="form-group{{errors.name ? ' has-error' : '' }}">
 								<div class="input-group">
 									<span class="input-group-addon form-span">Name</span>
@@ -20,20 +20,28 @@
 							<div class="form-group  {{ description.phone ? ' has-error' : '' }}">
 		                        <div class="input-group">
 		                            <span class="input-group-addon form-span">Description</span>
-		                            <textarea rows="20" id="description" name="description" class="form-control" placeholder="Type the course description" type="text" value="{{ old.description }}">
+		                            <textarea rows="5" id="description" name="description" class="form-control" placeholder="Type the course description" type="text" value="{{ old.description }}">
 		                            </textarea>
 		                        </div>
 		                        {% if errors.description %}
 								<span class="help-block">{{ errors.description | first }}</span>
 								{% endif %}
 		                    </div>
+		                    <div class="form-group{{errors.image ? ' has-error' : '' }}">
+								<div class="input-group">
+									<span class="input-group-addon form-span">Browse image</span>
+									<input type="file" name="image" id="image"  class="form-control" value="{{ old.email }}" >
+								</div>
+								{% if errors.image %}
+								<span class="help-block">{{ errors.image | first }}</span>
+								{% endif %}
+							</div>
 							<button type="submit" class="btn btn-default">Add course</button>
 		
 							{{ csrf.field | raw }}
 							
 						</form>
 				</div>
-			</main>
 		</div>
 	</div>
 

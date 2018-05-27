@@ -1,0 +1,1 @@
+add rule in edit feature "if email available except the current student/user that edit now"

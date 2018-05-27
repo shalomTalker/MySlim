@@ -10,6 +10,7 @@ class Course extends Model {
 	protected $fillable =[
 		'name',
 		'description',
+		'image',
 	];
 //function getCourse
 //function getAllCourses

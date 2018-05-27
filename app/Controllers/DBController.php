@@ -10,7 +10,7 @@ class DBcontroller extends Controller
 {
     public function getUsersList()
     {
-        $userlist = array('users'=>$this->db2->select('SELECT id, name, phone, role, email, updated_at, created_at  from users;'));
+        $userlist = array('users'=>$this->db2->select('SELECT id, name, phone, role, email, updated_at, created_at, image  from users;'));
         $parsedUsers = array();
         foreach ($userlist as $key => $value) {
             foreach ($value as $subkey => $subvalue) {
@@ -39,6 +39,7 @@ class DBcontroller extends Controller
             enrol.course_id, 
             enrol.admin_id, 
             stud.name as student_name, 
+            stud.image as student_image,
             cour.name as course_name, 
             user.name as user_name FROM enrollments enrol
             INNER JOIN students stud on enrol.student_id = stud.id  

@@ -8,7 +8,7 @@ class ImageValidator extends Controller
 {
     protected $errors = [];
     //image mimetype
-    protected $mimeType = "image/jpeg/png";
+    protected $mimeType = "image/jpeg";
     //image size allowed(1mb)
     protected $size = 1048576;
 
@@ -23,32 +23,38 @@ class ImageValidator extends Controller
     protected function validateSize($image)
     {
         if ($image->getSize() > $this->size) {
-            array_push($this->errors, '"' . $uploadedFile->getClientFilename() . '" is too large (' . $uploadedFile->getSize() . ' > 5mb)!');
+            array_push($this->errors, '"' . $image->getClientFilename() . '" is too large (' . $image->getSize() . ' > 1mb)!');
         }
     }
 
     protected function validateType($image)
     {
         if ($image->getClientMediaType() !== $this->mimeType) {
+            // var_dump($image->getClientMediaType());
+            // die();
             array_push($this->errors, '"' . $image->getClientFilename() . '" is wrong file format! Please use "'.$this->mimeType.'" only');
         }
     }
 
     public function failed($image)
     {
+        if ($image) {
         $this->isEmpty($image);
         $this->validateSize($image);
         $this->validateType($image);
         $_SESSION['errors']['image'] = $this->errors;
         $errors = $this->errors;
         return !empty($errors);
+        }
     }
 
-    public function moveUploadedFile($directory, $image, $id)
+    public function moveUploadedFile($directory, $image)
     {
-        $extension = pathinfo($image->getClientFilename(), PATHINFO_EXTENSION);
-        $filename = sprintf('%s.%0.8s', $id, $extension);
+        $extension = pathinfo($image->getClientFilename(), PATHINFO_EXTENSION );
+        $filename = sprintf('%s.%0.8s', $image->getClientFilename(), $extension);
+
         $image->moveTo($directory . DIRECTORY_SEPARATOR . $filename);
+     
         return $filename;
     }
 }

@@ -1,100 +1,200 @@
-body {
-  padding-top: 80px;
-  padding-bottom: 50px;
-  padding-left: 3rem;
-  padding-right: 3rem;
+body{
+  /*background: url('../images/bcg.jpeg') no-repeat;*/
+  /*background-size: cover;*/
+    padding: .5rem;  
+}
+#logo img {
+  width: 35px;
+}
+#logo span {
+  color: black !important;
+  font-weight: bold;
+  font-size: 25px;
+}
+#nav {
+  background: linear-gradient(to left, rgba(0, 102, 255, 0), rgba(0, 102, 255, 1));
+}
+#nav button span {
+    background-color: rgba(0, 102, 255, .6);
+    border-radius: 4px;
+}
+#nav-links {
+  display: flex;
+  justify-content: space-between;
+}
+#signIn .panel-heading {
+    padding-bottom: 1.5rem; 
+}
+#home {
+  padding: 1rem; 
+}
+.list-title {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 
 }
-#logo-img{
+.list .btnAdd {
+    display: block;
+    max-width: 25px;
+    font-weight: bold;
+    font-size: 25px;
+    margin-bottom: 8px;  
+}
+.list .list-group {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 20rem;
+}
+.list .list-group a {
+    display: flex;
+    flex-wrap: nowrap;
+    min-width: 270px;
+    min-height: 100px;
+    padding: 0;
+    margin-bottom: .5rem;
+}
+.list .list-group a img {
   width: 70px;
-  height: 40px;
-  margin: 0.5rem;
-  box-sizing: border-box;
-
+  padding-left: .3rem;  
+  padding-right: .3rem 
 }
-div .list {
+.list .list-group a .list-text {
   display: flex;
   flex-wrap: wrap;
+  padding-left: 1.3rem;
+  padding-bottom: 0.3rem;
 }
-div .list h4 {
-  margin-bottom: 1rem;
-  width: 100%;
-}
-.btnAdd {
-  line-height: 0.428571 !important;
-  margin-left: 1.5rem;
-  margin-bottom: 1rem;
-  max-height: 38px;
-}
-.svg-icon {
-  width: 1.5em;
-  height: 1.5em;
-}
-
-.svg-icon path,
-.svg-icon polygon,
-.svg-icon rect {
-  fill: black;
+.list .list-group a .list-text span {
+  width: 100%;  
+  line-height: 150%;
 }
 .main {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  min-height: 500px;
   border: 1px solid black;
-  border-radius: 4px;
-  padding: 3rem;
-  height: 50rem;
-
+  border-radius: 5px;
+  margin: 1rem; 
+  box-sizing: content-box;
 }
-.list-group {
+#admin {
+  padding: 1rem; 
+}
+#admin .list .list-group a {
+    justify-content: flex-start;
+}
+#showS {
+  width: 100%;
+  padding: 1rem;
+}
+#showS .panel-heading .btn {
+  font-size: 25px;
+  float: right;
+}
+#showS #details {
+  display: flex; 
+}
+#showS #details div img {
+  padding-bottom: 1rem;
+}
+#showS #details div:last-child {
+  padding-left: 1rem;
+}
+#showS .specDetails {
+  display: flex;
+  justify-content: space-between;
+  padding-top: .5rem; 
+}
+#showA {
+  width: 100%;
+  padding: 1rem;
+}
+#showA .panel-heading .btn {
+  float: right;
+  font-size: 25px;
+}
+#showA #details {
+  display: flex;
+  flex-wrap: wrap; 
+  padding-left: 1rem; 
+}
+#showA .panel-body img {
+  padding-bottom: 1rem;
+}
+#showA #container-details {
+  display: flex;
+  flex-wrap: nowrap;
+}
+#showA #details * {
   width: 100%;
 }
-.list-group a {
+#showA #details div:last-child {
+  padding-left: 1rem;
+}
+#showA .specDetails {
   display: flex;
   flex-wrap: wrap;
-  margin: 1rem;
-  border-radius: 4px;
+  padding-top: .5rem; 
 }
-.list-group a span {
+#showA .specDetails h5 {
+  width: 100%;  
+}
+#showC {
   width: 100%;
+  padding-top: 1rem;
 }
-form .form-group textarea {
-  max-height: 80px;
-  max-width: 740px;
+#showC .panel-heading .btn {
+  float: right;
+  font-size: 25px;
 }
-#show {
-  width: 100%;
-  padding: 20px;
-  border: 0;
-}
-#show > .panel-heading {
-  border: 1px solid #ddd ;
+#showC #details {
   display: flex;
-  /*flex-wrap: nowrap;*/
-  justify-content: space-between;
+  flex-wrap: nowrap; 
+  margin: 0;
 }
-#show > .panel-heading > a {
-  font-size: 17px;
-  color: black;
+#showC .panel-body > div > img {
+  padding-bottom: 1rem;
+  height: 180px;
+}
+#showC #details div:last-child {
+  width: 100%;
+  padding-left: 1rem;
+}
+#showC #details div:last-child p {
+  max-height: 200px;
+  max-width:300px; 
+  overflow-x: auto;
+}
+#showC .specDetails {
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: .5rem; 
+}
+#showC .specDetails h5 {
+  width: 100%;  
+}
+#showC .registeredDetails ul {
+  display: flex;
+  flex-wrap: wrap;
+  list-style-type: none;
+  max-height: 200px;
+  overflow-x: auto;
+}
+#showC .registeredDetails ul li {
+  padding-bottom: .5rem;
+}
+#showC .registeredDetails img {
+  width: 80px;
+}
+#edit .del {
+  font-size: 25px;
+  float: right;
+}
+#edit label.radio-inline {
+  padding-right: 3rem; 
+}
 
-}
-#show > .panel-heading > .del {
-  font-size: 22px;
-  color: black;
 
-}
-#show > .panel-body {
-  border: 1px solid #ddd ;
-  position: relative;
-}
-#show > .panel-body > .input-group {
-  margin-bottom: 1rem;
-}
-#enrollmentDiv {
-  position: absolute;
-  top: 15px;
-  right: 20%;
-}
-#enrollmentDiv ul {
-  display: block;
-}
+

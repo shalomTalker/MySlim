@@ -7,7 +7,7 @@
 					<div class="panel-heading">
 						<h4>Create a new student</h4>
 					</div>
-						<form class="panel-body" action="{{path_for('manage.createstudent')}}" method="post" autocomplete="off">
+						<form class="panel-body" action="{{path_for('manage.createstudent')}}" method="post" enctype="multipart/form-data" autocomplete="off">
 							<div class="form-group{{errors.name ? ' has-error' : '' }}">
 								<div class="input-group">
 									<span class="input-group-addon form-span">Name</span>
@@ -18,14 +18,14 @@
 								{% endif %}
 							</div>
 							<div class="form-group  {{ errors.phone ? ' has-error' : '' }}">
-                <div class="input-group">
-                    <span class="input-group-addon form-span">Phone</span>
-                    <input id="phone" name="phone" class="form-control" placeholder="enter the student phone number" type="number" value="{{ old.phone }}">
-                </div>
-                {% if errors.phone %}
-								<span class="help-block">{{ errors.phone | first }}</span>
-								{% endif %}
-              </div>
+				                <div class="input-group">
+				                    <span class="input-group-addon form-span">Phone</span>
+				                    <input id="phone" name="phone" class="form-control" placeholder="enter the student phone number" type="number" value="{{ old.phone }}">
+				                </div>
+				                {% if errors.phone %}
+									<span class="help-block">{{ errors.phone | first }}</span>
+									{% endif %}
+				                </div>
 							<div class="form-group{{errors.email ? ' has-error' : '' }}">
 								<div class="input-group">
 									<span class="input-group-addon form-span">E-mail</span>
@@ -35,10 +35,10 @@
 								<span class="help-block">{{ errors.email | first }}</span>
 								{% endif %}
 							</div>
-							<div class="form-group{{errors.email ? ' has-error' : '' }}">
+							<div class="form-group{{errors.image ? ' has-error' : '' }}">
 								<div class="input-group">
 									<span class="input-group-addon form-span">Browse image</span>
-									<input type="file" name="image" id="image"  class="form-control" >
+									<input type="file" name="image" id="image"  class="form-control" value="{{ old.email }}" >
 								</div>
 								{% if errors.image %}
 								<span class="help-block">{{ errors.image | first }}</span>
@@ -53,7 +53,6 @@
 						</form>
 				</div>
 			</div>
-		</main>
 	</div>
 
 

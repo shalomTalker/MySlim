@@ -146,7 +146,9 @@ $app->add($container->csrf);
 
 v::with('App\\Validation\\Rules\\');
 
-$container['directory_IMG_students'] = __DIR__.'/../public/images/students';
+$container['directory_IMG_students'] = __DIR__.'\..\public\images\students';
+$container['directory_IMG_admins'] = __DIR__.'\..\public\images\admins';
+$container['directory_IMG_courses'] = __DIR__.'\..\public\images\courses';
 
 
 require __DIR__ . '/../app/routes.php';
