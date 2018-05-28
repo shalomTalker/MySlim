@@ -38,23 +38,33 @@ class ImageValidator extends Controller
 
     public function failed($image)
     {
-        if ($image) {
-        $this->isEmpty($image);
-        $this->validateSize($image);
-        $this->validateType($image);
-        $_SESSION['errors']['image'] = $this->errors;
-        $errors = $this->errors;
-        return !empty($errors);
+        if(file_exists($_FILES['image']['tmp_name']) || is_uploaded_file($_FILES['image']['tmp_name'])) {
+            $this->isEmpty($image);
+            $this->validateSize($image);
+            $this->validateType($image);
+            $_SESSION['errors']['image'] = $this->errors;
+            $errors = $this->errors;
+            return !empty($errors);
+        } else {
+            return;
         }
     }
 
-    public function moveUploadedFile($directory, $image)
+    public function moveUploadedFile($directory, $image, $id, $table)
     {
+        if(file_exists($_FILES['image']['tmp_name']) || is_uploaded_file($_FILES['image']['tmp_name'])) {
+
         $extension = pathinfo($image->getClientFilename(), PATHINFO_EXTENSION );
         $filename = sprintf('%s.%0.8s', $image->getClientFilename(), $extension);
 
         $image->moveTo($directory . DIRECTORY_SEPARATOR . $filename);
      
         return $filename;
+
+        } else {
+            $exImg = $this->DBcontroller->getLastImage($id, $table);
+
+            return $exImg['image'];
+        }
     }
 }

@@ -134,8 +134,11 @@ class DBcontroller extends Controller
         // die();
         return $parsedEnrollments;
     } 
-    // public function getCoursesList()
-    // {
+    public function getLastImage($id, $table)
+    {
+         $stmt = $this->db2->select("SELECT image FROM $table WHERE id = $id;");
+        return (array) $stmt[0];
+    }
     //     $courses = array('courses' => $this->db2->select('SELECT id,name,description,start_date,end_date FROM courses WHERE active="1"', [1]));
     //     $parsedCourses = array();
     //     foreach ($courses as $key => $value) {
