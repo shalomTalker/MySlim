@@ -38,7 +38,7 @@ class ImageValidator extends Controller
 
     public function failed($image)
     {
-        if(file_exists($_FILES['image']['tmp_name']) || is_uploaded_file($_FILES['image']['tmp_name'])) {
+        if(/*file_exists($_FILES['image']['name']) ||*/ is_uploaded_file($_FILES['image']['name'])) {
             $this->isEmpty($image);
             $this->validateSize($image);
             $this->validateType($image);
@@ -50,9 +50,11 @@ class ImageValidator extends Controller
         }
     }
 
-    public function moveUploadedFile($directory, $image, $id, $table)
+    public function moveUploadedFile($directory, $image, $table, ...$id)
     {
-        if(file_exists($_FILES['image']['tmp_name']) || is_uploaded_file($_FILES['image']['tmp_name'])) {
+        var_dump(is_uploaded_file($_FILES['image']['name']));
+        die();
+        if(/*file_exists($_FILES['image']['name']) ||*/ is_uploaded_file($_FILES['image']['name'])) {
 
         $extension = pathinfo($image->getClientFilename(), PATHINFO_EXTENSION );
         $filename = sprintf('%s.%0.8s', $image->getClientFilename(), $extension);

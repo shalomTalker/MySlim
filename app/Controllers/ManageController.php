@@ -32,13 +32,14 @@ class ManageController extends Controller
 
         $file = $request->getUploadedFiles();
         $profileImage = $file['image'];
+        $table = 'students';
 
 		if ($validation->failed() || $this->ImageValidator->failed($profileImage)) {
 			$this->flash->addMessage('error', 'could not add this Student with those details.' );
 			return $response->withRedirect($this->router->pathFor('manage.createstudent'));
 		}
 
-		$image = $this->ImageValidator->moveUploadedFile($this->container->directory_IMG_students, $profileImage);
+		$image = $this->ImageValidator->moveUploadedFile($this->container->directory_IMG_students, $profileImage, $table, $id);
 	
 		$student = Student::create([
 			'name' => $request->getParam('name'),
@@ -153,13 +154,14 @@ class ManageController extends Controller
 
 		$file = $request->getUploadedFiles();
         $profileImage = $file['image'];
+        $table = 'courses';
 
 		if ($validation->failed() || $this->ImageValidator->failed($profileImage)) {
 			$this->flash->addMessage('error', 'could not add this Course with those details.' );
 			return $response->withRedirect($this->router->pathFor('manage.createcourse'));
 		}
 
-		$image = $this->ImageValidator->moveUploadedFile($this->container->directory_IMG_courses, $profileImage);
+		$image = $this->ImageValidator->moveUploadedFile($this->container->directory_IMG_courses, $profileImage, $table, $id);
 
 		$course = Course::create([
 			'name' => $request->getParam('name'),
@@ -263,7 +265,7 @@ class ManageController extends Controller
 
 		$file = $request->getUploadedFiles();
         $profileImage = $file['image'];
-		$requireImg = true;
+        $table = 'users';
 
 		$password = $request->getParam('password'); 
 		$confirm_password = $request->getParam('confirm_password');
@@ -278,7 +280,7 @@ class ManageController extends Controller
 			return $response->withRedirect($this->router->pathFor('manage.createadmin'));
 		}
 
-		$image = $this->ImageValidator->moveUploadedFile($this->container->directory_IMG_admins, $profileImage);
+		$image = $this->ImageValidator->moveUploadedFile($this->container->directory_IMG_admins, $profileImage, $id, $table);
 
 		$user = User::create([
 			'email' => $request->getParam('email'),
