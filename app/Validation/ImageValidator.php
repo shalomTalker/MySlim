@@ -30,31 +30,27 @@ class ImageValidator extends Controller
     protected function validateType($image)
     {
         if ($image->getClientMediaType() !== $this->mimeType) {
-            // var_dump($image->getClientMediaType());
-            // die();
             array_push($this->errors, '"' . $image->getClientFilename() . '" is wrong file format! Please use "'.$this->mimeType.'" only');
         }
     }
 
     public function failed($image)
     {
-        if(/*file_exists($_FILES['image']['name']) ||*/ is_uploaded_file($_FILES['image']['name'])) {
+        // if(/*file_exists($_FILES['image']['name']) ||*/ is_uploaded_file($_FILES['image']['name'])) {
             $this->isEmpty($image);
             $this->validateSize($image);
             $this->validateType($image);
             $_SESSION['errors']['image'] = $this->errors;
             $errors = $this->errors;
             return !empty($errors);
-        } else {
-            return;
-        }
+        // } else {
+        //     return;
+        // }
     }
 
-    public function moveUploadedFile($directory, $image, $table, ...$id)
+    public function moveUploadedFile($directory, $image/*, $table, ...$id*/)
     {
-        var_dump(is_uploaded_file($_FILES['image']['name']));
-        die();
-        if(/*file_exists($_FILES['image']['name']) ||*/ is_uploaded_file($_FILES['image']['name'])) {
+        // if(/*file_exists($_FILES['image']['name']) ||*/ is_uploaded_file($_FILES['image']['name'])) {
 
         $extension = pathinfo($image->getClientFilename(), PATHINFO_EXTENSION );
         $filename = sprintf('%s.%0.8s', $image->getClientFilename(), $extension);
@@ -63,10 +59,10 @@ class ImageValidator extends Controller
      
         return $filename;
 
-        } else {
-            $exImg = $this->DBcontroller->getLastImage($id, $table);
+        // } else {
+        //     $exImg = $this->DBcontroller->getLastImage($id, $table);
 
-            return $exImg['image'];
-        }
+        //     return $exImg['image'];
+        // }
     }
 }

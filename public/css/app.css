@@ -24,10 +24,25 @@ body{
 }
 #signIn .panel-heading {
     padding-bottom: 1.5rem; 
+    padding-top: 1.5rem; 
 }
 #home {
   padding: 1rem; 
 }
+.container-alert {
+  display: flex;
+  align-items: flex-end;
+  margin-top: 1.5rem;
+  /* position: relative; */
+}
+.alert {
+  width: 100%;
+  position: relative;
+}
+/*@keyframes alertmove {
+    0% {top: 0px;}
+    100% {top: -250px;}
+}*/
 .list-title {
     display: flex;
     flex-wrap: wrap;

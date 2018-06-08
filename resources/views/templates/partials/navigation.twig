@@ -25,7 +25,6 @@
                     {{ auth.user.name }} ,{{ auth.user.role }}
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Edit</a>
                     <a class="dropdown-item" href="{{ path_for('auth.password.change') }}">Change password</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ path_for('auth.signout') }}">Sign-out</a>

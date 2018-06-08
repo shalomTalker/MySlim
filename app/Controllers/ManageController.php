@@ -32,14 +32,13 @@ class ManageController extends Controller
 
         $file = $request->getUploadedFiles();
         $profileImage = $file['image'];
-        $table = 'students';
+        // $table = 'students';
 
 		if ($validation->failed() || $this->ImageValidator->failed($profileImage)) {
 			$this->flash->addMessage('error', 'could not add this Student with those details.' );
 			return $response->withRedirect($this->router->pathFor('manage.createstudent'));
 		}
-
-		$image = $this->ImageValidator->moveUploadedFile($this->container->directory_IMG_students, $profileImage, $table, $id);
+		$image = $this->ImageValidator->moveUploadedFile($this->container->directory_IMG_students, $profileImage, $table);
 	
 		$student = Student::create([
 			'name' => $request->getParam('name'),
@@ -66,6 +65,7 @@ class ManageController extends Controller
 	{
         $id = $args['student_id'];
         $table = 'students';
+
 		$validation = $this->validator->validate($request, [
 			'name' => v::notEmpty()->alpha(),
 			'phone' => v::notEmpty()->PhoneValid(),
@@ -74,16 +74,25 @@ class ManageController extends Controller
 
 		$file = $request->getUploadedFiles();
         $profileImage = $file['image'];
-     
-        
 
-		if ($validation->failed() || $this->ImageValidator->failed($profileImage)) {
+		if ($validation->failed()) {
 			$this->flash->addMessage('error', 'could not update this Student with those details.' );
 			return $response->withRedirect($this->router->pathFor('manage.editstudent',$args));
 		}
+			
+		if(is_uploaded_file($_FILES['image']['tmp_name'])|| file_exists($_FILES['image']['tmp_name'])) {
+			if($this->ImageValidator->failed($profileImage)){
+				$this->flash->addMessage('error', 'could not update this Student with those details.' );
+				return $response->withRedirect($this->router->pathFor('manage.editstudent',$args));
+			} else {
+				$image = $this->ImageValidator->moveUploadedFile($this->container->directory_IMG_students, $profileImage);
+			}
+		} else {
+			 $image = $this->DBcontroller->getLastImage($id, $table);
+		}
 
 		$body = $request->getParsedBody();
-		$image = $this->ImageValidator->moveUploadedFile($this->container->directory_IMG_students, $profileImage, $id, $table);
+
 		$student = Student::where('id', $id)->update([
 			'name' => $body['name'],
 			'phone' => $body['phone'],
@@ -97,7 +106,6 @@ class ManageController extends Controller
 
 		foreach ($courses as $course) {
 			$Enrollment = Enrollment::create([
-
 				'student_id' => $id,
 				'course_id' => $course,
 				'admin_id' => $body['admin'],
@@ -186,6 +194,8 @@ class ManageController extends Controller
 	public function postEditCourse($request, $response, $args)
 	{
         $id = $args['course_id'];
+        $table = 'courses';
+
 		$validation = $this->validator->validate($request, [
 			'name' => v::notEmpty()->alpha(),
 			'description' => v::notEmpty(),
@@ -193,13 +203,23 @@ class ManageController extends Controller
 
 		$file = $request->getUploadedFiles();
         $profileImage = $file['image'];
-        $table = 'courses';
 
-		if ($validation->failed() || $this->ImageValidator->failed($profileImage)) {
+		if ($validation->failed()) {
 			$this->flash->addMessage('error', 'could not update this Course with those details.' );
 			return $response->withRedirect($this->router->pathFor('manage.editcourse', $args));
 		}
-		$image = $this->ImageValidator->moveUploadedFile($this->container->directory_IMG_courses, $profileImage, $id, $table);
+		if(is_uploaded_file($_FILES['image']['tmp_name'])|| file_exists($_FILES['image']['tmp_name'])) {
+			if($this->ImageValidator->failed($profileImage)){
+				$this->flash->addMessage('error', 'could not update this Student with those details.' );
+				return $response->withRedirect($this->router->pathFor('manage.editcourse',$args));
+			} else {
+				$image = $this->ImageValidator->moveUploadedFile($this->container->directory_IMG_courses, $profileImage);
+
+			}
+		} else {
+			$image = $this->DBcontroller->getLastImage($id, $table);
+		}
+
 
 		$course = Course::where('id', $id)->update([
 			'name' => $request->getParam('name'),
@@ -295,9 +315,6 @@ class ManageController extends Controller
 
 		$this->flash->addMessage('info', 'You have successfully added User to the school');
 
-//create session for new registered user so he may be redirected automatically to home.twig
-		// $this->auth->attempt($user->email, $request->getParam('password'));
-
 		return $response->withRedirect($this->router->pathFor('admin'));
 	}
 
@@ -312,6 +329,8 @@ class ManageController extends Controller
 	public function postEditAdmin($request, $response, $args)
 	{
         $id = $args['admin_id'];
+        $table = 'users';
+
 		$validation = $this->validator->validate($request, [
 			'email' => v::noWhitespace()->notEmpty()->email(),
 			'name' => v::notEmpty()->alpha(),
@@ -321,14 +340,22 @@ class ManageController extends Controller
 
 		$file = $request->getUploadedFiles();
         $profileImage = $file['image'];
-        $table = 'users';
 
-		if ($validation->failed() || $this->ImageValidator->failed($profileImage)) {
+		if ($validation->failed()) {
 			$this->flash->addMessage('error', 'could not update this user with those details.' );
 			return $response->withRedirect($this->router->pathFor('manage.editadmin',$args));
 		}
+		if(is_uploaded_file($_FILES['image']['tmp_name'])|| file_exists($_FILES['image']['tmp_name'])) {
+			if($this->ImageValidator->failed($profileImage)){
+				$this->flash->addMessage('error', 'could not update this Student with those details.' );
+				return $response->withRedirect($this->router->pathFor('manage.editadmin',$args));
+			} else {
+				$image = $this->ImageValidator->moveUploadedFile($this->container->directory_IMG_admins, $profileImage);
+			}
+		} else {
+			$image = $this->DBcontroller->getLastImage($id, $table);
+		}
 
-		$image = $this->ImageValidator->moveUploadedFile($this->container->directory_IMG_admins, $profileImage, $id, $table);
 
 		switch ($request->getParam('role')) {
 			case '1':
